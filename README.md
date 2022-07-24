@@ -2,6 +2,12 @@
 
 Idea from this [youtube video](https://www.youtube.com/watch?v=hScR513gvNo&t=2161s)
 
+# Screenshots
+
+![react gallery 1](https://github.com/ezegonmac/react-gallery/blob/'main'/react-gallery-1.png)
+
+![react gallery 2](https://github.com/ezegonmac/react-gallery/blob/'main'/react-gallery-2.png)
+
 # Setup
 
 Create a `.env.local` file using the existing `env.local.example` replacing the API key with yours.
