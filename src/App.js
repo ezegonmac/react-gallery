@@ -7,14 +7,53 @@ class App extends Component {
 
   state = {
     term : '',
-    images : []
+    images : [],
+    page: ''
   }
 
   API_KEY = process.env.REACT_APP_API_KEY;
+
+  scroll = () => {
+    const elem = document.querySelector('.jumbotron');
+    elem.scrollIntoView("smooth", "start")
+  }
+
+  prevPage = () => {
+    let page = this.state.page;
+
+    if(page === 1) return null;
+
+    page--;
+
+    this.setState({
+      page
+    }, () => {
+      this.fetchAPI();
+      this.scroll();
+    });
+
+    // console.log("Prev... " + page)
+  }
+  
+  nextPage = () => {
+    let page = this.state.page;
+
+    page++;
+
+    this.setState({
+      page
+    }, () => {
+      this.fetchAPI();
+      this.scroll();
+    });
+
+    // console.log("Next... " + page)
+  }
     
   fetchAPI = () => {
     const perPage = 30;
-    const url = `https://pixabay.com/api/?key=${this.API_KEY}&q=${this.state.term}&per_page=${perPage}`
+    const page = this.state.page;
+    const url = `https://pixabay.com/api/?key=${this.API_KEY}&q=${this.state.term}&per_page=${perPage}&page=${page}`
 
     fetch(url)
       .then(res => res.json())
@@ -24,7 +63,8 @@ class App extends Component {
   searchData = (term) => {
     
     this.setState({
-      term
+      term: term,
+      page: 1
     }, () => {
       this.fetchAPI()
     })
@@ -40,8 +80,12 @@ class App extends Component {
           message="Buscador..."
           searchData={this.searchData} />
       </div>
-      <Result
-        images={this.state.images}/>
+      <div className="row justify-content-center">
+        <Result
+          images={this.state.images}
+          prevPage={this.prevPage}
+          nextPage={this.nextPage}/>
+      </div>
     </div>
     );
 }
