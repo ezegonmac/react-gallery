@@ -1,11 +1,13 @@
 import { Component } from 'react';
 import './bootstrap.min.css';
 import Searcher from './components/Searcher';
+import Result from './components/Result';
 
 class App extends Component {
 
   state = {
-    term : ''
+    term : '',
+    images : []
   }
 
   API_KEY = process.env.REACT_APP_API_KEY;
@@ -16,11 +18,11 @@ class App extends Component {
 
     fetch(url)
       .then(res => res.json())
-      .then(res => console.log(res.hits))
+      .then(res => this.setState({ images : res.hits }))
   }
 
   searchData = (term) => {
-    // console.log(term);
+    
     this.setState({
       term
     }, () => {
@@ -38,7 +40,8 @@ class App extends Component {
           message="Buscador..."
           searchData={this.searchData} />
       </div>
-      {this.state.term}
+      <Result
+        images={this.state.images}/>
     </div>
     );
 }
